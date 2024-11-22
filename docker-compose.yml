@@ -1,0 +1,16 @@
+services:
+  port_monitor:
+    build: .
+    user: root
+    container_name: port_monitor
+    network_mode: host
+    volumes:
+      - ./monitor.sh:/opt/monitor.sh
+      - /var/run/docker.sock:/var/run/docker.sock  # Připojení Docker socketu
+    command: /bin/sh /opt/monitor.sh
+    environment:
+      - MY_IP=localhost
+      - PORT=1234
+      - INTERFACE=wlan0
+      - IDLE_TIME=60
+    restart: unless-stopped
